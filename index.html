@@ -666,23 +666,94 @@
       justify-content: center;
       gap: 0.5rem;
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
     .complete-title {
       font-family: 'Caveat', cursive;
       font-size: 2rem;
       color: #1e1b4b;
       text-align: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
     .complete-msg {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: #6b7280;
       text-align: center;
-      line-height: 1.6;
+      line-height: 1.5;
       margin-bottom: 1rem;
       position: relative;
       z-index: 1;
+    }
+
+    /* Final Box - 4 Corners Display */
+    .final-box {
+      position: relative;
+      background: rgba(255, 255, 255, 0.7);
+      border: 3px solid #1e40af;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      z-index: 1;
+    }
+    .final-box-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .final-corner {
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      position: relative;
+    }
+    .final-corner-num {
+      position: absolute;
+      top: -8px;
+      width: 20px;
+      height: 20px;
+      background: #1e40af;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .corner-tl .final-corner-num { left: -8px; }
+    .corner-tr .final-corner-num { right: -8px; }
+    .corner-bl .final-corner-num { left: -8px; }
+    .corner-br .final-corner-num { right: -8px; }
+    .final-corner-label {
+      display: block;
+      font-size: 0.6rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .final-corner-value {
+      display: block;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: #1e40af;
+      line-height: 1.3;
+    }
+    .final-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      background: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+      border: 2px solid #f59e0b;
     }
 
     /* Progress */
@@ -1252,27 +1323,38 @@
             <div class="complete-symbols">
               <span>🌟</span><span>🕊️</span><span>💜</span><span>✨</span><span>🦋</span>
             </div>
-            ${renderBox()}
             <div class="complete-title">It Is Done</div>
             <p class="complete-msg">
-              Your manifestation has been sealed with a <strong>star of activation</strong>
-              and released to the universe like a <strong>dove carrying your intention</strong>.<br><br>
+              Your manifestation has been sealed and released to the universe.<br>
               Let go. Trust. Focus on gratitude.
             </p>
-            <div class="summary-box">
-              <div class="summary-item">
-                <div class="summary-label">You Manifested</div>
-                <div class="summary-value">${boxData.desire}</div>
+
+            <div class="final-box">
+              <div class="final-box-grid">
+                <div class="final-corner corner-tl">
+                  <span class="final-corner-num">1</span>
+                  <span class="final-corner-label">Your Desire</span>
+                  <span class="final-corner-value">${boxData.desire}</span>
+                </div>
+                <div class="final-corner corner-tr">
+                  <span class="final-corner-num">2</span>
+                  <span class="final-corner-label">End Scene</span>
+                  <span class="final-corner-value">${boxData.endScene}</span>
+                </div>
+                <div class="final-corner corner-bl">
+                  <span class="final-corner-num">4</span>
+                  <span class="final-corner-label">Let + Allow</span>
+                  <span class="final-corner-value">Released ✨</span>
+                </div>
+                <div class="final-corner corner-br">
+                  <span class="final-corner-num">3</span>
+                  <span class="final-corner-label">Feeling</span>
+                  <span class="final-corner-value">${boxData.feeling}</span>
+                </div>
               </div>
-              <div class="summary-item">
-                <div class="summary-label">You Will See</div>
-                <div class="summary-value">${boxData.endScene}</div>
-              </div>
-              <div class="summary-item">
-                <div class="summary-label">You Will Feel</div>
-                <div class="summary-value">${boxData.feeling}</div>
-              </div>
+              <div class="final-center">⭐</div>
             </div>
+
             <button class="btn btn-primary" onclick="startNew()">New Manifestation</button>
           </div>
         `;
