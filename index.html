@@ -791,6 +791,31 @@
       justify-content: center;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
       border: 2px solid #f59e0b;
+      transition: all 0.5s ease;
+    }
+    .final-center.pulsing {
+      animation: pulse-glow 1s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        box-shadow: 0 0 40px rgba(245, 158, 11, 0.8), 0 0 60px rgba(245, 158, 11, 0.4);
+      }
+    }
+    .final-box.sealing {
+      animation: box-glow 1.5s ease-in-out infinite;
+    }
+    @keyframes box-glow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), 0 0 50px rgba(124, 58, 237, 0.3);
+      }
     }
 
     /* Progress */
@@ -1347,32 +1372,48 @@
 
       else if (currentStep === 6) {
         html += `
-          <div class="card" style="position: relative; overflow: hidden;">
+          <div class="card" style="position: relative; overflow: visible;">
             ${isSealed ? `
-              <span class="sparkle" style="top: 20%; left: 15%;">✨</span>
-              <span class="sparkle" style="top: 30%; right: 20%; animation-delay: 0.2s;">⭐</span>
-              <span class="sparkle" style="top: 60%; left: 25%; animation-delay: 0.4s;">💫</span>
-              <span class="sparkle" style="bottom: 30%; right: 15%; animation-delay: 0.6s;">🌟</span>
-              <span class="float-symbol" style="top: 40%; left: 40%;">🕊️</span>
-              <span class="float-symbol" style="top: 45%; left: 55%; animation-delay: 0.3s;">💜</span>
+              <span class="sparkle" style="top: 5%; left: 10%;">✨</span>
+              <span class="sparkle" style="top: 10%; right: 10%; animation-delay: 0.2s;">⭐</span>
+              <span class="sparkle" style="top: 25%; left: 5%; animation-delay: 0.4s;">💫</span>
+              <span class="sparkle" style="top: 20%; right: 5%; animation-delay: 0.6s;">🌟</span>
+              <span class="float-symbol" style="top: 15%; left: 45%;">🕊️</span>
+              <span class="float-symbol" style="top: 18%; left: 55%; animation-delay: 0.3s;">💜</span>
             ` : ''}
-            ${renderBox()}
-            <div class="summary-box">
-              <div class="summary-item">
-                <div class="summary-label">Your Desire</div>
-                <div class="summary-value">${boxData.desire}</div>
+
+            <p style="text-align: center; font-family: 'Caveat', cursive; font-size: 1.5rem; color: #1e40af; margin-bottom: 0.75rem; position: relative; z-index: 1;">
+              ${isSealed ? '✨ Releasing to the Universe...' : 'Your Manifest Box is Ready'}
+            </p>
+
+            <div class="final-box ${isSealed ? 'sealing' : ''}">
+              <div class="final-box-grid">
+                <div class="final-corner corner-tl">
+                  <span class="final-corner-num">1</span>
+                  <span class="final-corner-label">Your Desire</span>
+                  <span class="final-corner-value">${boxData.desire}</span>
+                </div>
+                <div class="final-corner corner-tr">
+                  <span class="final-corner-num">2</span>
+                  <span class="final-corner-label">End Scene</span>
+                  <span class="final-corner-value">${boxData.endScene}</span>
+                </div>
+                <div class="final-corner corner-bl">
+                  <span class="final-corner-num">4</span>
+                  <span class="final-corner-label">Let + Allow</span>
+                  <span class="final-corner-value">${isSealed ? 'Releasing... 🕊️' : 'Ready to Release'}</span>
+                </div>
+                <div class="final-corner corner-br">
+                  <span class="final-corner-num">3</span>
+                  <span class="final-corner-label">Feeling</span>
+                  <span class="final-corner-value">${boxData.feeling}</span>
+                </div>
               </div>
-              <div class="summary-item">
-                <div class="summary-label">End Scene</div>
-                <div class="summary-value">${boxData.endScene}</div>
-              </div>
-              <div class="summary-item">
-                <div class="summary-label">Feeling</div>
-                <div class="summary-value">${boxData.feeling}</div>
-              </div>
+              <div class="final-center ${isSealed ? 'pulsing' : ''}">⭐</div>
             </div>
+
             <button class="btn btn-gold" onclick="sealBox()" ${isSealed ? 'disabled' : ''}>
-              ${isSealed ? 'Releasing...' : '🕊️ Seal & Release'}
+              ${isSealed ? '🕊️ Releasing...' : '🕊️ Seal & Release'}
             </button>
           </div>
         `;
