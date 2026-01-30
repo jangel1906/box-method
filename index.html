@@ -69,33 +69,34 @@
 
     .corner-label {
       position: absolute;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: white;
       background: #8B5CF6;
-      padding: 0.2rem 0.4rem;
-      border-radius: 0.25rem;
-      font-weight: 600;
+      padding: 0.15rem 0.3rem;
+      border-radius: 3px;
+      font-weight: 700;
       z-index: 5;
     }
-    .label-1 { top: -0.5rem; left: -0.5rem; }
-    .label-2 { top: -0.5rem; right: -0.5rem; }
-    .label-3 { bottom: -0.5rem; right: -0.5rem; }
-    .label-4 { bottom: -0.5rem; left: -0.5rem; }
+    .label-1 { top: 0; left: 0; transform: translate(-30%, -30%); }
+    .label-2 { top: 0; right: 0; transform: translate(30%, -30%); }
+    .label-3 { bottom: 0; right: 0; transform: translate(30%, 30%); }
+    .label-4 { bottom: 0; left: 0; transform: translate(-30%, 30%); }
 
     .corner-text {
       position: absolute;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: #374151;
-      max-width: 42%;
-      line-height: 1.3;
+      max-width: 44%;
+      line-height: 1.25;
       word-wrap: break-word;
       z-index: 4;
+      overflow: hidden;
       padding: 0.25rem;
     }
-    .text-1 { top: 0.5rem; left: 0.5rem; }
-    .text-2 { top: 0.5rem; right: 0.5rem; text-align: right; }
-    .text-3 { bottom: 0.5rem; right: 0.5rem; text-align: right; }
-    .text-4 { bottom: 0.5rem; left: 0.5rem; }
+    .text-1 { top: 0.75rem; left: 0.4rem; }
+    .text-2 { top: 0.75rem; right: 0.4rem; text-align: right; }
+    .text-3 { bottom: 0.75rem; right: 0.4rem; text-align: right; }
+    .text-4 { bottom: 0.75rem; left: 0.4rem; }
 
     .step { margin-bottom: 1.25rem; }
     .step-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
