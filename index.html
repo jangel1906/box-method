@@ -387,35 +387,72 @@
     }
 
     /* History */
-    .history-item {
-      background: white;
-      border-radius: 0.75rem;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      position: relative;
-      z-index: 1;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .history-item:active { transform: scale(0.98); }
-    .history-date {
-      font-size: 0.7rem;
-      color: #9ca3af;
-      margin-bottom: 0.25rem;
-    }
-    .history-desire {
-      font-family: 'Caveat', cursive;
-      font-size: 1.2rem;
-      color: #1e40af;
-      margin-bottom: 0.25rem;
-    }
-    .history-feeling {
-      display: inline-block;
-      font-size: 0.7rem;
-      background: #eef2ff;
-      color: #4c1d95;
-      padding: 0.2rem 0.5rem;
+    .history-card {
+      background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
       border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    .history-header {
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .history-date {
+      font-size: 0.8rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    .history-box {
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid #1e40af;
+      border-radius: 0.5rem;
+      padding: 0.4rem;
+    }
+    .history-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+    }
+    .history-corner {
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      border-radius: 0.4rem;
+      padding: 0.6rem;
+      position: relative;
+    }
+    .hc-num {
+      position: absolute;
+      top: -6px;
+      width: 16px;
+      height: 16px;
+      background: #1e40af;
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hc-tl .hc-num { left: -6px; }
+    .hc-tr .hc-num { right: -6px; }
+    .hc-bl .hc-num { left: -6px; }
+    .hc-br .hc-num { right: -6px; }
+    .hc-label {
+      display: block;
+      font-size: 0.55rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.15rem;
+    }
+    .hc-value {
+      display: block;
+      font-family: 'Caveat', cursive;
+      font-size: 0.95rem;
+      color: #1e40af;
+      line-height: 1.2;
+      word-break: break-word;
     }
     .empty-history {
       text-align: center;
@@ -1126,10 +1163,34 @@
           history.forEach(item => {
             const date = new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             html += `
-              <div class="history-item">
-                <div class="history-date">${date}</div>
-                <div class="history-desire">${item.desire}</div>
-                <span class="history-feeling">${item.feeling}</span>
+              <div class="history-card">
+                <div class="history-header">
+                  <span class="history-date">⭐ ${date}</span>
+                </div>
+                <div class="history-box">
+                  <div class="history-grid">
+                    <div class="history-corner hc-tl">
+                      <span class="hc-num">1</span>
+                      <span class="hc-label">Desire</span>
+                      <span class="hc-value">${item.desire}</span>
+                    </div>
+                    <div class="history-corner hc-tr">
+                      <span class="hc-num">2</span>
+                      <span class="hc-label">End Scene</span>
+                      <span class="hc-value">${item.endScene}</span>
+                    </div>
+                    <div class="history-corner hc-bl">
+                      <span class="hc-num">4</span>
+                      <span class="hc-label">Released</span>
+                      <span class="hc-value">✨ Done</span>
+                    </div>
+                    <div class="history-corner hc-br">
+                      <span class="hc-num">3</span>
+                      <span class="hc-label">Feeling</span>
+                      <span class="hc-value">${item.feeling}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             `;
           });
