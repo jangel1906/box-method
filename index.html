@@ -424,6 +424,242 @@
     }
     .empty-history-icon { font-size: 3rem; margin-bottom: 1rem; }
 
+    /* Tooltip System */
+    .help-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
+    }
+    .help-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 10px rgba(124, 58, 237, 0.5);
+    }
+    .help-icon:active {
+      transform: scale(0.95);
+    }
+
+    .tooltip-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 1rem;
+    }
+    .tooltip-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tooltip-content {
+      background: linear-gradient(145deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      max-width: 320px;
+      width: 100%;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .tooltip-overlay.active .tooltip-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .tooltip-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .tooltip-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+    .tooltip-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .tooltip-body {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+    .tooltip-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .tooltip-body li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .tooltip-body li::before {
+      content: '✨';
+      position: absolute;
+      left: 0;
+      font-size: 0.75rem;
+    }
+
+    .tooltip-tap-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Learn How It Works Button */
+    .learn-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+    .learn-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .learn-btn:active {
+      transform: scale(0.98);
+    }
+    .learn-btn-icon {
+      font-size: 1rem;
+    }
+
+    /* Full Method Modal */
+    .modal-content {
+      background: linear-gradient(145deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      max-width: 360px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .tooltip-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.75rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .modal-section {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .modal-section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal-section-num {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+    }
+    .modal-section-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #fbbf24;
+    }
+    .modal-section-text {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .modal-summary {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+    .modal-summary-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #fbbf24;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .modal-summary-list {
+      list-style: none;
+      padding: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.8rem;
+    }
+    .modal-summary-list li {
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .modal-summary-list li span:first-child {
+      flex-shrink: 0;
+    }
+
     /* Complete Screen */
     .complete-symbols {
       display: flex;
@@ -465,6 +701,13 @@
     }
     .progress-dot.active { background: #1e40af; transform: scale(1.2); }
     .progress-dot.done { background: #10b981; }
+    .progress-dot:hover {
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(30, 64, 175, 0.5);
+    }
+    .progress-dot.done:hover {
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -482,6 +725,173 @@
     let history = loadHistory();
 
     const feelings = ['Excited', 'Grateful', 'Joyful', 'Relieved', 'Peaceful', 'Abundant', 'Loved', 'Free', 'Confident'];
+
+    // Tooltip content data
+    const tooltips = {
+      1: {
+        icon: '1',
+        title: 'State Your Desire',
+        items: [
+          'Write in present tense as if it already happened',
+          'This programs your subconscious mind to accept it as real',
+          'Specificity and emotion amplify the signal to the universe'
+        ]
+      },
+      2: {
+        icon: '2',
+        title: 'Visualize the Evidence',
+        items: [
+          'This is your "proof" - what you\'ll see when it manifests',
+          'Creates a clear mental image for visualization',
+          'The universe responds to clarity and detail'
+        ]
+      },
+      3: {
+        icon: '3',
+        title: 'Emotional Alignment',
+        items: [
+          'Emotions are the language of manifestation',
+          'Feeling the joy NOW raises your vibration to match your desire',
+          'This is the most powerful step - emotion creates attraction'
+        ]
+      },
+      4: {
+        icon: '4',
+        title: 'Release & Trust',
+        items: [
+          'Detachment allows the universe to deliver',
+          'Obsessing blocks the flow - gratitude opens it',
+          'Trust that it\'s already done'
+        ]
+      }
+    };
+
+    let activeTooltip = null;
+
+    function showTooltip(step) {
+      activeTooltip = step;
+      render();
+      setTimeout(() => {
+        const overlay = document.querySelector('.tooltip-overlay');
+        if (overlay) overlay.classList.add('active');
+      }, 10);
+    }
+
+    function showFullMethod() {
+      activeTooltip = 'full';
+      render();
+      setTimeout(() => {
+        const overlay = document.querySelector('.tooltip-overlay');
+        if (overlay) overlay.classList.add('active');
+      }, 10);
+    }
+
+    function hideTooltip() {
+      const overlay = document.querySelector('.tooltip-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+          activeTooltip = null;
+          render();
+        }, 300);
+      }
+    }
+
+    function goToStep(step) {
+      // Allow going back to any previous step, or forward if requirements met
+      if (step < currentStep) {
+        currentStep = step;
+        render();
+      } else if (step === currentStep + 1 && canProceed()) {
+        currentStep = step;
+        render();
+      }
+    }
+
+    function canProceed() {
+      if (currentStep === 1) return boxData.desire.trim();
+      if (currentStep === 2) return boxData.endScene.trim();
+      if (currentStep === 3) return boxData.feeling;
+      return true;
+    }
+
+    function renderTooltipOverlay() {
+      if (!activeTooltip) return '';
+
+      if (activeTooltip === 'full') {
+        return `
+          <div class="tooltip-overlay" onclick="hideTooltip()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+              <div class="modal-title">How The Manifest Box Works</div>
+
+              <div class="modal-section">
+                <div class="modal-section-header">
+                  <span class="modal-section-num">1</span>
+                  <span class="modal-section-title">Your Desire</span>
+                </div>
+                <p class="modal-section-text">Write what you want in present tense, as if it just happened. This programs your subconscious to accept it as real.</p>
+              </div>
+
+              <div class="modal-section">
+                <div class="modal-section-header">
+                  <span class="modal-section-num">2</span>
+                  <span class="modal-section-title">End Scene</span>
+                </div>
+                <p class="modal-section-text">Describe what you'll see as proof. The universe responds to clarity - give it a clear target.</p>
+              </div>
+
+              <div class="modal-section">
+                <div class="modal-section-header">
+                  <span class="modal-section-num">3</span>
+                  <span class="modal-section-title">Your Feeling</span>
+                </div>
+                <p class="modal-section-text">Emotions are the language of manifestation. Feeling it NOW raises your vibration to match your desire.</p>
+              </div>
+
+              <div class="modal-section">
+                <div class="modal-section-header">
+                  <span class="modal-section-num">4</span>
+                  <span class="modal-section-title">Let + Allow</span>
+                </div>
+                <p class="modal-section-text">Release attachment. Obsessing blocks the flow - trust and gratitude open it.</p>
+              </div>
+
+              <div class="modal-summary">
+                <div class="modal-summary-title">The Complete Picture</div>
+                <ul class="modal-summary-list">
+                  <li><span>1️⃣</span> <span>Sets your <strong>INTENTION</strong> (What you want)</span></li>
+                  <li><span>2️⃣</span> <span>Creates your <strong>VISION</strong> (Evidence)</span></li>
+                  <li><span>3️⃣</span> <span>Generates your <strong>VIBRATION</strong> (Feeling)</span></li>
+                  <li><span>4️⃣</span> <span>Enables <strong>RECEIVING</strong> (Release)</span></li>
+                  <li><span>⏱️</span> <span>60s visualization locks it into your subconscious</span></li>
+                  <li><span>⭐</span> <span>The seal activates and releases it to the universe</span></li>
+                </ul>
+              </div>
+
+              <p class="tooltip-tap-hint">Tap anywhere to close</p>
+            </div>
+          </div>
+        `;
+      }
+
+      const tip = tooltips[activeTooltip];
+      return `
+        <div class="tooltip-overlay" onclick="hideTooltip()">
+          <div class="tooltip-content" onclick="event.stopPropagation()">
+            <div class="tooltip-header">
+              <div class="tooltip-icon">${tip.icon}</div>
+              <div class="tooltip-title">${tip.title}</div>
+            </div>
+            <div class="tooltip-body">
+              <ul>
+                ${tip.items.map(item => `<li>${item}</li>`).join('')}
+              </ul>
+            </div>
+            <p class="tooltip-tap-hint">Tap anywhere to close</p>
+          </div>
+        </div>
+      `;
+    }
 
     function loadHistory() {
       try {
@@ -645,6 +1055,10 @@
               Create your visual script to manifest your desires
             </p>
             <button class="btn btn-primary" onclick="nextStep()">Begin Writing</button>
+            <button class="learn-btn" onclick="showFullMethod()">
+              <span class="learn-btn-icon">✨</span>
+              Learn How This Works
+            </button>
           </div>
         `;
       }
@@ -654,15 +1068,16 @@
           <div class="card">
             ${renderBox()}
             <div class="progress-bar">
-              <div class="progress-dot active"></div>
-              <div class="progress-dot"></div>
-              <div class="progress-dot"></div>
-              <div class="progress-dot"></div>
+              <div class="progress-dot active" style="cursor: pointer;" onclick="goToStep(1)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(2)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(3)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(4)"></div>
             </div>
             <div class="step-section">
               <div class="step-label">
                 <span class="step-num">1</span>
                 <span class="step-title">Your Desire</span>
+                <span class="help-icon" onclick="showTooltip(1)">?</span>
               </div>
               <p class="step-hint">Write in present tense, as if it just happened</p>
               <textarea class="input-field" rows="2" placeholder="I just received $10,000 easily!" oninput="updateField('desire', this.value)">${boxData.desire}</textarea>
@@ -678,15 +1093,16 @@
           <div class="card">
             ${renderBox(true)}
             <div class="progress-bar">
-              <div class="progress-dot done"></div>
-              <div class="progress-dot active"></div>
-              <div class="progress-dot"></div>
-              <div class="progress-dot"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(1)"></div>
+              <div class="progress-dot active" style="cursor: pointer;" onclick="goToStep(2)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(3)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(4)"></div>
             </div>
             <div class="step-section">
               <div class="step-label">
                 <span class="step-num">2</span>
                 <span class="step-title">End Scene</span>
+                <span class="help-icon" onclick="showTooltip(2)">?</span>
               </div>
               <p class="step-hint">What evidence will you see when it manifests?</p>
               <textarea class="input-field" rows="2" placeholder="Bank account shows +$10,000" oninput="updateField('endScene', this.value)">${boxData.endScene}</textarea>
@@ -702,15 +1118,16 @@
           <div class="card">
             ${renderBox(true)}
             <div class="progress-bar">
-              <div class="progress-dot done"></div>
-              <div class="progress-dot done"></div>
-              <div class="progress-dot active"></div>
-              <div class="progress-dot"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(1)"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(2)"></div>
+              <div class="progress-dot active" style="cursor: pointer;" onclick="goToStep(3)"></div>
+              <div class="progress-dot" style="cursor: pointer;" onclick="goToStep(4)"></div>
             </div>
             <div class="step-section">
               <div class="step-label">
                 <span class="step-num">3</span>
                 <span class="step-title">Your Feeling</span>
+                <span class="help-icon" onclick="showTooltip(3)">?</span>
               </div>
               <p class="step-hint">How will you feel when this manifests?</p>
               <div class="feelings-grid">
@@ -730,15 +1147,16 @@
           <div class="card">
             ${renderBox(true)}
             <div class="progress-bar">
-              <div class="progress-dot done"></div>
-              <div class="progress-dot done"></div>
-              <div class="progress-dot done"></div>
-              <div class="progress-dot active"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(1)"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(2)"></div>
+              <div class="progress-dot done" style="cursor: pointer;" onclick="goToStep(3)"></div>
+              <div class="progress-dot active" style="cursor: pointer;" onclick="goToStep(4)"></div>
             </div>
             <div class="step-section">
               <div class="step-label">
                 <span class="step-num">4</span>
                 <span class="step-title">Let + Allow</span>
+                <span class="help-icon" onclick="showTooltip(4)">?</span>
               </div>
               <div style="background: #eef2ff; border-radius: 0.5rem; padding: 1rem; text-align: center; position: relative; z-index: 1;">
                 <p style="font-family: 'Caveat', cursive; font-size: 1.5rem; color: #1e40af;">Release & Trust</p>
@@ -839,6 +1257,10 @@
       }
 
       html += `</div>`;
+
+      // Add tooltip overlay
+      html += renderTooltipOverlay();
+
       app.innerHTML = html;
 
       // Mark writing animations as done after delay
