@@ -25,9 +25,9 @@
     .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
     .header p { font-size: 0.875rem; opacity: 0.9; }
 
-    .card { background: white; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 1.5rem; margin-bottom: 1rem; }
+    .card { background: white; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 1.25rem; margin-bottom: 1rem; padding-bottom: 1.5rem; }
 
-    .box-container { position: relative; width: 100%; aspect-ratio: 1; margin: 1rem 0; padding: 1rem; }
+    .box-container { position: relative; width: 100%; max-width: 280px; aspect-ratio: 1; margin: 0.5rem auto; padding: 0.75rem; }
 
     .box {
       position: relative;
@@ -138,18 +138,19 @@
 
     .btn {
       width: 100%;
-      padding: 1rem;
+      padding: 1.25rem;
       border: none;
       border-radius: 0.75rem;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.1s, opacity 0.2s;
+      min-height: 56px;
     }
     .btn:active { transform: scale(0.98); }
     .btn-primary { background: #8B5CF6; color: white; }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-secondary { background: #F3F4F6; color: #4B5563; margin-top: 0.5rem; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-secondary { background: #F3F4F6; color: #4B5563; margin-top: 0.75rem; font-size: 0.95rem; }
     .btn-gold { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; }
 
     .timer-container { text-align: center; padding: 2rem 0; }
@@ -335,6 +336,12 @@
 
     function updateField(field, value) {
       boxData[field] = value;
+      // Update button state without full re-render
+      const nextBtn = document.querySelector('.btn-primary');
+      if (nextBtn && nextBtn.textContent.includes('Next')) {
+        if (field === 'desire') nextBtn.disabled = !value.trim();
+        if (field === 'endScene') nextBtn.disabled = !value.trim();
+      }
     }
 
     function nextStep() {
