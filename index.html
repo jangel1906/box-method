@@ -27,11 +27,12 @@
 
     .card { background: white; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 1.5rem; margin-bottom: 1rem; }
 
-    .box-container { position: relative; width: 100%; aspect-ratio: 1; margin: 1rem 0; }
+    .box-container { position: relative; width: 100%; aspect-ratio: 1; margin: 1rem 0; padding: 1rem; }
 
     .box {
-      position: absolute;
-      inset: 2rem;
+      position: relative;
+      width: 100%;
+      height: 100%;
       border: 3px solid #8B5CF6;
       border-radius: 0.5rem;
       transition: all 0.5s ease;
@@ -41,7 +42,7 @@
     }
     .box-circle {
       position: absolute;
-      inset: -0.5rem;
+      inset: -0.75rem;
       border: 3px solid #F59E0B;
       border-radius: 50%;
       opacity: 0;
@@ -66,45 +67,35 @@
       opacity: 1;
     }
 
-    .corner {
-      position: absolute;
-      font-size: 0.7rem;
-      color: #6B7280;
-      background: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-    }
-    .corner-1 { top: 0; left: 0; transform: translate(-50%, -50%); }
-    .corner-2 { top: 0; right: 0; transform: translate(50%, -50%); }
-    .corner-3 { bottom: 0; right: 0; transform: translate(50%, 50%); }
-    .corner-4 { bottom: 0; left: 0; transform: translate(-50%, 50%); }
-
     .corner-label {
       position: absolute;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: white;
       background: #8B5CF6;
-      padding: 0.15rem 0.35rem;
+      padding: 0.2rem 0.4rem;
       border-radius: 0.25rem;
       font-weight: 600;
+      z-index: 5;
     }
-    .label-1 { top: 1.5rem; left: 1.5rem; }
-    .label-2 { top: 1.5rem; right: 1.5rem; }
-    .label-3 { bottom: 1.5rem; right: 1.5rem; }
-    .label-4 { bottom: 1.5rem; left: 1.5rem; }
+    .label-1 { top: -0.5rem; left: -0.5rem; }
+    .label-2 { top: -0.5rem; right: -0.5rem; }
+    .label-3 { bottom: -0.5rem; right: -0.5rem; }
+    .label-4 { bottom: -0.5rem; left: -0.5rem; }
 
     .corner-text {
       position: absolute;
-      font-size: 0.75rem;
+      font-size: 0.6rem;
       color: #374151;
-      max-width: 45%;
-      line-height: 1.2;
+      max-width: 42%;
+      line-height: 1.3;
       word-wrap: break-word;
+      z-index: 4;
+      padding: 0.25rem;
     }
-    .text-1 { top: 2.5rem; left: 2.5rem; }
-    .text-2 { top: 2.5rem; right: 2.5rem; text-align: right; }
-    .text-3 { bottom: 2.5rem; right: 2.5rem; text-align: right; }
-    .text-4 { bottom: 2.5rem; left: 2.5rem; }
+    .text-1 { top: 0.5rem; left: 0.5rem; }
+    .text-2 { top: 0.5rem; right: 0.5rem; text-align: right; }
+    .text-3 { bottom: 0.5rem; right: 0.5rem; text-align: right; }
+    .text-4 { bottom: 0.5rem; left: 0.5rem; }
 
     .step { margin-bottom: 1.25rem; }
     .step-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
@@ -402,17 +393,17 @@
     function renderBox() {
       return `
         <div class="box-container">
-          <span class="corner-label label-1">#1</span>
-          <span class="corner-label label-2">#2</span>
-          <span class="corner-label label-3">#3</span>
-          <span class="corner-label label-4">#4</span>
-
-          ${boxData.desire ? `<span class="corner-text text-1">${boxData.desire}</span>` : ''}
-          ${boxData.endScene ? `<span class="corner-text text-2">${boxData.endScene}</span>` : ''}
-          ${boxData.feeling ? `<span class="corner-text text-3">Feeling: ${boxData.feeling}</span>` : ''}
-          ${boxData.letAllow ? `<span class="corner-text text-4">Let + Allow</span>` : ''}
-
           <div class="box ${isSealed ? 'sealed' : ''}">
+            <span class="corner-label label-1">#1</span>
+            <span class="corner-label label-2">#2</span>
+            <span class="corner-label label-3">#3</span>
+            <span class="corner-label label-4">#4</span>
+
+            ${boxData.desire ? `<span class="corner-text text-1">${boxData.desire}</span>` : ''}
+            ${boxData.endScene ? `<span class="corner-text text-2">${boxData.endScene}</span>` : ''}
+            ${boxData.feeling ? `<span class="corner-text text-3">Feeling: ${boxData.feeling}</span>` : ''}
+            ${boxData.letAllow ? `<span class="corner-text text-4">Let + Allow</span>` : ''}
+
             <div class="box-circle"></div>
             <span class="box-star">⭐</span>
           </div>
