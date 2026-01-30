@@ -215,6 +215,113 @@
     }
     .progress-dot.active { background: #8B5CF6; }
     .progress-dot.completed { background: #10B981; }
+
+    /* Release Animation */
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+    @keyframes float-up {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.8), 0 0 60px rgba(139, 92, 246, 0.5); }
+    }
+    @keyframes expand-circle {
+      0% { transform: scale(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    .release-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .sparkle {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: sparkle 1s ease-in-out forwards;
+    }
+    .release-glow {
+      animation: pulse-glow 1.5s ease-in-out infinite;
+      border-radius: 1rem;
+    }
+    .release-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      margin: -25px;
+      border: 3px solid #F59E0B;
+      border-radius: 50%;
+      animation: expand-circle 1s ease-out forwards;
+    }
+    .float-symbol {
+      position: absolute;
+      font-size: 1.25rem;
+      animation: float-up 2s ease-out forwards;
+    }
+
+    .summary-card {
+      background: linear-gradient(135deg, #F3E8FF 0%, #FEF3C7 100%);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .summary-item {
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    .summary-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .summary-label {
+      font-size: 0.7rem;
+      color: #7C3AED;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .summary-value {
+      font-size: 0.875rem;
+      color: #1F2937;
+      font-weight: 500;
+    }
+
+    .release-symbols {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+    .symbol {
+      animation: sparkle 0.8s ease-in-out forwards;
+    }
+    .symbol:nth-child(1) { animation-delay: 0s; }
+    .symbol:nth-child(2) { animation-delay: 0.2s; }
+    .symbol:nth-child(3) { animation-delay: 0.4s; }
+    .symbol:nth-child(4) { animation-delay: 0.6s; }
+    .symbol:nth-child(5) { animation-delay: 0.8s; }
+
+    .released-text {
+      text-align: center;
+      font-size: 1rem;
+      color: #7C3AED;
+      font-weight: 600;
+      margin: 1rem 0;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out 1s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -500,17 +607,51 @@
         html = `
           <div class="container">
             <div class="header">
-              <h1>✨ Seal It</h1>
+              <h1>✨ Seal & Release</h1>
               <p>Complete your manifestation</p>
             </div>
-            <div class="card">
+            <div class="card ${isSealed ? 'release-glow' : ''}" style="position: relative; overflow: hidden;">
+              ${isSealed ? `
+                <div class="release-ring" style="animation-delay: 0s;"></div>
+                <div class="release-ring" style="animation-delay: 0.3s;"></div>
+                <div class="release-ring" style="animation-delay: 0.6s;"></div>
+                <span class="sparkle" style="top: 10%; left: 20%;">✨</span>
+                <span class="sparkle" style="top: 20%; right: 15%; animation-delay: 0.2s;">⭐</span>
+                <span class="sparkle" style="top: 60%; left: 10%; animation-delay: 0.4s;">💫</span>
+                <span class="sparkle" style="bottom: 20%; right: 20%; animation-delay: 0.6s;">🌟</span>
+                <span class="float-symbol" style="top: 50%; left: 30%;">🕊️</span>
+                <span class="float-symbol" style="top: 50%; left: 50%; animation-delay: 0.3s;">💜</span>
+                <span class="float-symbol" style="top: 50%; left: 70%; animation-delay: 0.5s;">🦋</span>
+              ` : ''}
               ${renderBox()}
-              <p style="text-align: center; color: #6B7280; font-size: 0.875rem; margin-bottom: 1rem;">
-                Tap below to seal your manifestation with a circle and star.
-              </p>
-              <button class="btn btn-gold" onclick="sealBox()" ${isSealed ? 'disabled' : ''}>
-                ${isSealed ? 'Sealing...' : '⭐ Seal Manifestation'}
-              </button>
+              ${!isSealed ? `
+                <div class="summary-card">
+                  <div class="summary-item">
+                    <div class="summary-label">Your Desire</div>
+                    <div class="summary-value">${boxData.desire}</div>
+                  </div>
+                  <div class="summary-item">
+                    <div class="summary-label">End Scene</div>
+                    <div class="summary-value">${boxData.endScene}</div>
+                  </div>
+                  <div class="summary-item">
+                    <div class="summary-label">Feeling</div>
+                    <div class="summary-value">${boxData.feeling}</div>
+                  </div>
+                  <div class="summary-item">
+                    <div class="summary-label">Release</div>
+                    <div class="summary-value">Let + Allow with Gratitude</div>
+                  </div>
+                </div>
+                <p style="text-align: center; color: #6B7280; font-size: 0.875rem; margin-bottom: 1rem;">
+                  Review your manifestation above, then seal and release it to the universe.
+                </p>
+                <button class="btn btn-gold" onclick="sealBox()">
+                  🕊️ Seal & Release to Universe
+                </button>
+              ` : `
+                <div class="released-text">Releasing to the Universe...</div>
+              `}
             </div>
           </div>
         `;
@@ -521,18 +662,41 @@
         html = `
           <div class="container">
             <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Manifestation complete</p>
+              <h1>✨ Released</h1>
+              <p>Your manifestation is complete</p>
             </div>
             <div class="card">
+              <div class="release-symbols">
+                <span class="symbol">🌟</span>
+                <span class="symbol">🕊️</span>
+                <span class="symbol">💜</span>
+                <span class="symbol">🦋</span>
+                <span class="symbol">✨</span>
+              </div>
               ${renderBox()}
+              <div class="summary-card">
+                <div class="summary-item">
+                  <div class="summary-label">You Manifested</div>
+                  <div class="summary-value">${boxData.desire}</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-label">Evidence You'll See</div>
+                  <div class="summary-value">${boxData.endScene}</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-label">You Will Feel</div>
+                  <div class="summary-value">${boxData.feeling}</div>
+                </div>
+              </div>
               <div class="complete-container">
-                <div class="complete-title">It Is Done</div>
+                <div class="complete-title">It Is Done ✓</div>
                 <p class="complete-text">
-                  Your manifestation has been sealed and released to the universe.
-                  Now let go, trust the process, and focus on gratitude for what you already have.
+                  Your manifestation has been sealed with a <strong>circle of protection</strong> and a <strong>star of activation</strong>,
+                  then released to the universe like a <strong>dove carrying your intention</strong>.
+                  <br><br>
+                  Now let go completely. Trust. Focus on gratitude for what you already have.
                 </p>
-                <button class="btn btn-primary" onclick="startNew()">New Manifestation</button>
+                <button class="btn btn-primary" onclick="startNew()">Create New Manifestation</button>
               </div>
             </div>
           </div>
