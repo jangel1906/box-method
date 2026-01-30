@@ -5,170 +5,314 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Box Method">
-  <meta name="theme-color" content="#8B5CF6">
-  <title>Box Method</title>
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B5CF6' width='100' height='100' rx='20'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='system-ui'>✨</text></svg>">
+  <meta name="apple-mobile-web-app-title" content="Manifest Box">
+  <meta name="theme-color" content="#1e1b4b">
+  <title>The Manifest Box</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
       min-height: 100vh;
       -webkit-tap-highlight-color: transparent;
     }
+
     @media (display-mode: standalone) { body { padding-top: env(safe-area-inset-top); } }
 
-    .container { max-width: 28rem; margin: 0 auto; padding: 1rem; min-height: 100vh; }
+    .handwriting {
+      font-family: 'Caveat', cursive;
+      color: #1e40af;
+    }
 
-    .header { text-align: center; color: white; padding: 1rem 0; }
-    .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .header p { font-size: 0.875rem; opacity: 0.9; }
+    .container { max-width: 400px; margin: 0 auto; padding: 1rem; min-height: 100vh; }
 
-    .card { background: white; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 1.25rem; margin-bottom: 1rem; padding-bottom: 1.5rem; }
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 1.5rem 0 1rem;
+    }
+    .header h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .header p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
 
-    .box-container { position: relative; width: 100%; max-width: 280px; aspect-ratio: 1; margin: 0.5rem auto; padding: 0.75rem; }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      padding: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .tab.active {
+      background: white;
+      color: #4c1d95;
+    }
 
-    .box {
+    /* Card */
+    .card {
+      background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+      border-radius: 1rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 27px,
+        #e5e7eb 27px,
+        #e5e7eb 28px
+      );
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* The Box */
+    .box-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 1;
+      margin: 0.5rem auto 1rem;
+    }
+    .manifest-box {
       position: relative;
       width: 100%;
       height: 100%;
-      border: 3px solid #8B5CF6;
-      border-radius: 0.5rem;
+      border: 3px solid #1e40af;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.5);
       transition: all 0.5s ease;
     }
-    .box.sealed {
-      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3);
-    }
-    .box-circle {
-      position: absolute;
-      inset: -0.75rem;
-      border: 3px solid #F59E0B;
+    .manifest-box.sealed {
+      box-shadow: 0 0 0 3px #f59e0b, 0 0 20px rgba(245,158,11,0.5);
       border-radius: 50%;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.5s ease;
     }
-    .box.sealed .box-circle {
-      opacity: 1;
-      transform: scale(1);
+
+    /* Corner Labels */
+    .corner-num {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #1e40af;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
     }
-    .box-star {
+    .num-1 { top: -10px; left: -10px; }
+    .num-2 { top: -10px; right: -10px; }
+    .num-3 { bottom: -10px; right: -10px; }
+    .num-4 { bottom: -10px; left: -10px; }
+
+    /* Corner Text - Handwriting */
+    .corner-content {
+      position: absolute;
+      font-family: 'Caveat', cursive;
+      font-size: 0.9rem;
+      color: #1e40af;
+      max-width: 45%;
+      line-height: 1.2;
+      overflow: hidden;
+    }
+    .content-1 { top: 8px; left: 8px; }
+    .content-2 { top: 8px; right: 8px; text-align: right; }
+    .content-3 { bottom: 8px; right: 8px; text-align: right; }
+    .content-4 { bottom: 8px; left: 8px; }
+
+    /* Writing Animation */
+    .writing {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typing 1s steps(30) forwards;
+      border-right: 2px solid #1e40af;
+    }
+    .writing.done {
+      border-right: none;
+      white-space: normal;
+      animation: none;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    /* Center Star */
+    .center-star {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
-      font-size: 2rem;
+      font-size: 2.5rem;
       opacity: 0;
-      transition: all 0.5s ease 0.3s;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .box.sealed .box-star {
-      transform: translate(-50%, -50%) scale(1);
+    .manifest-box.sealed .center-star {
+      transform: translate(-50%, -50%) scale(1) rotate(360deg);
       opacity: 1;
     }
 
-    .corner-label {
-      position: absolute;
-      font-size: 0.55rem;
+    /* Form Elements */
+    .step-section { margin-bottom: 1.25rem; position: relative; z-index: 1; }
+    .step-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: #1e40af;
       color: white;
-      background: #8B5CF6;
-      padding: 0.15rem 0.3rem;
-      border-radius: 3px;
+      font-size: 0.75rem;
       font-weight: 700;
-      z-index: 5;
-    }
-    .label-1 { top: 0; left: 0; transform: translate(-30%, -30%); }
-    .label-2 { top: 0; right: 0; transform: translate(30%, -30%); }
-    .label-3 { bottom: 0; right: 0; transform: translate(30%, 30%); }
-    .label-4 { bottom: 0; left: 0; transform: translate(-30%, 30%); }
-
-    .corner-text {
-      position: absolute;
-      font-size: 0.55rem;
-      color: #374151;
-      max-width: 44%;
-      line-height: 1.25;
-      word-wrap: break-word;
-      z-index: 4;
-      overflow: hidden;
-      padding: 0.25rem;
-    }
-    .text-1 { top: 0.75rem; left: 0.4rem; }
-    .text-2 { top: 0.75rem; right: 0.4rem; text-align: right; }
-    .text-3 { bottom: 0.75rem; right: 0.4rem; text-align: right; }
-    .text-4 { bottom: 0.75rem; left: 0.4rem; }
-
-    .step { margin-bottom: 1.25rem; }
-    .step-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .step-number {
-      width: 1.5rem;
-      height: 1.5rem;
-      background: #8B5CF6;
-      color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 600;
     }
-    .step-title { font-weight: 600; color: #1F2937; font-size: 0.9rem; }
-    .step-hint { font-size: 0.75rem; color: #9CA3AF; margin-bottom: 0.5rem; }
+    .step-title {
+      font-weight: 600;
+      color: #1e1b4b;
+      font-size: 0.9rem;
+    }
+    .step-hint {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+      margin-left: 2rem;
+    }
 
-    .input {
+    .input-field {
       width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #E5E7EB;
+      padding: 0.875rem;
+      border: 2px solid #c7d2fe;
       border-radius: 0.5rem;
-      font-size: 0.875rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #1e40af;
+      background: white;
       transition: border-color 0.2s;
     }
-    .input:focus { outline: none; border-color: #8B5CF6; }
-    .textarea { resize: none; font-family: inherit; }
-
-    .select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #E5E7EB;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      background: white;
-      cursor: pointer;
+    .input-field:focus {
+      outline: none;
+      border-color: #1e40af;
     }
-    .select:focus { outline: none; border-color: #8B5CF6; }
+    .input-field::placeholder {
+      color: #a5b4fc;
+    }
 
+    /* Feelings */
+    .feelings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .feeling-btn {
+      padding: 0.6rem 0.25rem;
+      border: 2px solid #c7d2fe;
+      border-radius: 0.5rem;
+      background: white;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: #4c1d95;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .feeling-btn.selected {
+      border-color: #1e40af;
+      background: #eef2ff;
+      transform: scale(1.05);
+    }
+
+    /* Buttons */
     .btn {
       width: 100%;
-      padding: 1.25rem;
+      padding: 1rem;
       border: none;
       border-radius: 0.75rem;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.1s, opacity 0.2s;
-      min-height: 56px;
+      transition: all 0.2s;
+      position: relative;
+      z-index: 1;
     }
     .btn:active { transform: scale(0.98); }
-    .btn-primary { background: #8B5CF6; color: white; }
-    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-secondary { background: #F3F4F6; color: #4B5563; margin-top: 0.75rem; font-size: 0.95rem; }
-    .btn-gold { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; }
+    .btn-primary {
+      background: linear-gradient(135deg, #1e40af 0%, #4c1d95 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+    }
+    .btn-primary:disabled { opacity: 0.5; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.8);
+      color: #4c1d95;
+      margin-top: 0.5rem;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
 
-    .timer-container { text-align: center; padding: 2rem 0; }
-    .timer-circle {
-      width: 10rem;
-      height: 10rem;
+    /* Timer */
+    .timer-display {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .timer-ring {
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
-      background: conic-gradient(#8B5CF6 var(--progress, 0%), #E5E7EB var(--progress, 0%));
+      background: conic-gradient(#1e40af var(--progress, 0%), #e5e7eb var(--progress, 0%));
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 1rem;
-      position: relative;
+      margin: 0 auto 1.5rem;
     }
     .timer-inner {
-      width: 8.5rem;
-      height: 8.5rem;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       background: white;
       display: flex;
@@ -176,173 +320,200 @@
       align-items: center;
       justify-content: center;
     }
-    .timer-seconds { font-size: 3rem; font-weight: 700; color: #1F2937; }
-    .timer-label { font-size: 0.875rem; color: #9CA3AF; }
-    .timer-instruction { font-size: 0.875rem; color: #6B7280; max-width: 80%; margin: 0 auto; line-height: 1.5; }
-
-    .complete-container { text-align: center; padding: 1rem 0; }
-    .complete-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .complete-title { font-size: 1.25rem; font-weight: 700; color: #1F2937; margin-bottom: 0.5rem; }
-    .complete-text { font-size: 0.875rem; color: #6B7280; margin-bottom: 1.5rem; line-height: 1.5; }
-
-    .feelings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
-    .feeling-btn {
-      padding: 0.5rem;
-      border: 2px solid #E5E7EB;
-      border-radius: 0.5rem;
-      background: white;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
+    .timer-num {
+      font-family: 'Caveat', cursive;
+      font-size: 4rem;
+      font-weight: 700;
+      color: #1e40af;
+      line-height: 1;
     }
-    .feeling-btn.selected { border-color: #8B5CF6; background: #F3E8FF; }
-    .feeling-btn:active { transform: scale(0.95); }
-
-    .progress-dots { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0; }
-    .progress-dot {
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background: #E5E7EB;
-      transition: background 0.3s;
+    .timer-text {
+      font-size: 0.875rem;
+      color: #6b7280;
     }
-    .progress-dot.active { background: #8B5CF6; }
-    .progress-dot.completed { background: #10B981; }
+    .visualize-prompt {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #1e1b4b;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+    }
 
     /* Release Animation */
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    @keyframes sparkle-burst {
+      0% { transform: scale(0) rotate(0deg); opacity: 1; }
+      100% { transform: scale(2) rotate(180deg); opacity: 0; }
     }
-    @keyframes float-up {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.8), 0 0 60px rgba(139, 92, 246, 0.5); }
-    }
-    @keyframes expand-circle {
-      0% { transform: scale(0); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: scale(3); opacity: 0; }
-    }
-
-    .release-container {
-      position: relative;
-      overflow: hidden;
+    @keyframes float-away {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-80px) scale(0.5); opacity: 0; }
     }
     .sparkle {
       position: absolute;
       font-size: 1.5rem;
-      animation: sparkle 1s ease-in-out forwards;
-    }
-    .release-glow {
-      animation: pulse-glow 1.5s ease-in-out infinite;
-      border-radius: 1rem;
-    }
-    .release-ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 50px;
-      height: 50px;
-      margin: -25px;
-      border: 3px solid #F59E0B;
-      border-radius: 50%;
-      animation: expand-circle 1s ease-out forwards;
+      animation: sparkle-burst 1s ease-out forwards;
     }
     .float-symbol {
       position: absolute;
-      font-size: 1.25rem;
-      animation: float-up 2s ease-out forwards;
+      font-size: 1.5rem;
+      animation: float-away 2s ease-out forwards;
     }
 
-    .summary-card {
-      background: linear-gradient(135deg, #F3E8FF 0%, #FEF3C7 100%);
+    /* Summary */
+    .summary-box {
+      background: white;
       border-radius: 0.75rem;
       padding: 1rem;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
+      position: relative;
+      z-index: 1;
     }
     .summary-item {
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed #e5e7eb;
     }
-    .summary-item:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
+    .summary-item:last-child { border-bottom: none; }
     .summary-label {
-      font-size: 0.7rem;
-      color: #7C3AED;
+      font-size: 0.65rem;
+      color: #6b7280;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 0.25rem;
     }
     .summary-value {
-      font-size: 0.875rem;
-      color: #1F2937;
-      font-weight: 500;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: #1e40af;
     }
 
-    .release-symbols {
+    /* History */
+    .history-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .history-item:active { transform: scale(0.98); }
+    .history-date {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      margin-bottom: 0.25rem;
+    }
+    .history-desire {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: #1e40af;
+      margin-bottom: 0.25rem;
+    }
+    .history-feeling {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #eef2ff;
+      color: #4c1d95;
+      padding: 0.2rem 0.5rem;
+      border-radius: 1rem;
+    }
+    .empty-history {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .empty-history-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* Complete Screen */
+    .complete-symbols {
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .complete-title {
+      font-family: 'Caveat', cursive;
       font-size: 2rem;
-      margin: 1rem 0;
-    }
-    .symbol {
-      animation: sparkle 0.8s ease-in-out forwards;
-    }
-    .symbol:nth-child(1) { animation-delay: 0s; }
-    .symbol:nth-child(2) { animation-delay: 0.2s; }
-    .symbol:nth-child(3) { animation-delay: 0.4s; }
-    .symbol:nth-child(4) { animation-delay: 0.6s; }
-    .symbol:nth-child(5) { animation-delay: 0.8s; }
-
-    .released-text {
+      color: #1e1b4b;
       text-align: center;
-      font-size: 1rem;
-      color: #7C3AED;
-      font-weight: 600;
-      margin: 1rem 0;
-      opacity: 0;
-      animation: fadeIn 0.5s ease-out 1s forwards;
+      margin-bottom: 0.5rem;
     }
-    @keyframes fadeIn {
-      to { opacity: 1; }
+    .complete-msg {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
     }
+
+    /* Progress */
+    .progress-bar {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 0.75rem 0;
+    }
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c7d2fe;
+      transition: all 0.3s;
+    }
+    .progress-dot.active { background: #1e40af; transform: scale(1.2); }
+    .progress-dot.done { background: #10b981; }
   </style>
 </head>
 <body>
   <div id="app"></div>
 
   <script>
-    // App State
-    let currentStep = 0; // 0=intro, 1-4=corners, 5=visualize, 6=seal, 7=complete
-    let boxData = {
-      desire: '',
-      endScene: '',
-      feeling: '',
-      letAllow: 'Focus on gratitude'
-    };
+    const HISTORY_KEY = 'manifest-box-history';
+
+    let currentView = 'create'; // 'create' or 'history'
+    let currentStep = 0;
+    let boxData = { desire: '', endScene: '', feeling: '', date: null };
     let timerSeconds = 60;
     let timerInterval = null;
     let isSealed = false;
+    let history = loadHistory();
 
     const feelings = ['Excited', 'Grateful', 'Joyful', 'Relieved', 'Peaceful', 'Abundant', 'Loved', 'Free', 'Confident'];
 
+    function loadHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      } catch { return []; }
+    }
+
+    function saveHistory() {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    }
+
+    function addToHistory() {
+      history.unshift({
+        id: Date.now(),
+        ...boxData,
+        date: new Date().toISOString()
+      });
+      saveHistory();
+    }
+
     function updateField(field, value) {
       boxData[field] = value;
-      // Update button state without full re-render
-      const nextBtn = document.querySelector('.btn-primary');
-      if (nextBtn && nextBtn.textContent.includes('Next')) {
-        if (field === 'desire') nextBtn.disabled = !value.trim();
-        if (field === 'endScene') nextBtn.disabled = !value.trim();
+      const btn = document.querySelector('.btn-primary');
+      if (btn) {
+        if (field === 'desire') btn.disabled = !value.trim();
+        if (field === 'endScene') btn.disabled = !value.trim();
       }
+    }
+
+    function selectFeeling(f) {
+      boxData.feeling = f;
+      render();
     }
 
     function nextStep() {
@@ -354,22 +525,13 @@
     }
 
     function prevStep() {
-      if (currentStep > 0) {
-        currentStep--;
-        render();
-      }
-    }
-
-    function selectFeeling(feeling) {
-      boxData.feeling = feeling;
-      render();
+      if (currentStep > 0) { currentStep--; render(); }
     }
 
     function startTimer() {
       currentStep = 5;
       timerSeconds = 60;
       render();
-
       timerInterval = setInterval(() => {
         timerSeconds--;
         if (timerSeconds <= 0) {
@@ -382,38 +544,50 @@
 
     function sealBox() {
       isSealed = true;
+      render();
       setTimeout(() => {
+        addToHistory();
         currentStep = 7;
         render();
-      }, 1500);
-      render();
+      }, 2000);
     }
 
     function startNew() {
       currentStep = 0;
-      boxData = { desire: '', endScene: '', feeling: '', letAllow: 'Focus on gratitude' };
+      boxData = { desire: '', endScene: '', feeling: '', date: null };
       timerSeconds = 60;
       isSealed = false;
       if (timerInterval) clearInterval(timerInterval);
       render();
     }
 
-    function renderBox() {
+    function setView(v) {
+      currentView = v;
+      render();
+    }
+
+    function deleteHistoryItem(id, e) {
+      e.stopPropagation();
+      history = history.filter(h => h.id !== id);
+      saveHistory();
+      render();
+    }
+
+    function renderBox(animated = false) {
       return `
-        <div class="box-container">
-          <div class="box ${isSealed ? 'sealed' : ''}">
-            <span class="corner-label label-1">#1</span>
-            <span class="corner-label label-2">#2</span>
-            <span class="corner-label label-3">#3</span>
-            <span class="corner-label label-4">#4</span>
+        <div class="box-wrapper">
+          <div class="manifest-box ${isSealed ? 'sealed' : ''}">
+            <span class="corner-num num-1">1</span>
+            <span class="corner-num num-2">2</span>
+            <span class="corner-num num-3">3</span>
+            <span class="corner-num num-4">4</span>
 
-            ${boxData.desire ? `<span class="corner-text text-1">${boxData.desire}</span>` : ''}
-            ${boxData.endScene ? `<span class="corner-text text-2">${boxData.endScene}</span>` : ''}
-            ${boxData.feeling ? `<span class="corner-text text-3">Feeling: ${boxData.feeling}</span>` : ''}
-            ${boxData.letAllow ? `<span class="corner-text text-4">Let + Allow</span>` : ''}
+            ${boxData.desire ? `<span class="corner-content content-1 ${animated ? 'writing' : ''}">${boxData.desire}</span>` : ''}
+            ${boxData.endScene ? `<span class="corner-content content-2 ${animated ? 'writing' : ''}">${boxData.endScene}</span>` : ''}
+            ${boxData.feeling ? `<span class="corner-content content-3 ${animated ? 'writing' : ''}">Feeling: ${boxData.feeling}</span>` : ''}
+            <span class="corner-content content-4">Let + Allow</span>
 
-            <div class="box-circle"></div>
-            <span class="box-star">⭐</span>
+            <span class="center-star">⭐</span>
           </div>
         </div>
       `;
@@ -423,286 +597,254 @@
       const app = document.getElementById('app');
       let html = '';
 
-      // Intro Screen
+      // Header
+      html += `
+        <div class="container">
+          <div class="header">
+            <h1>The Manifest Box</h1>
+            <p>${currentView === 'history' ? 'Your manifestation history' : 'Write your reality'}</p>
+          </div>
+          <div class="tabs">
+            <button class="tab ${currentView === 'create' ? 'active' : ''}" onclick="setView('create')">Create</button>
+            <button class="tab ${currentView === 'history' ? 'active' : ''}" onclick="setView('history')">History (${history.length})</button>
+          </div>
+      `;
+
+      // History View
+      if (currentView === 'history') {
+        if (history.length === 0) {
+          html += `
+            <div class="empty-history">
+              <div class="empty-history-icon">📦</div>
+              <p>No manifestations yet.<br>Create your first one!</p>
+            </div>
+          `;
+        } else {
+          history.forEach(item => {
+            const date = new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            html += `
+              <div class="history-item">
+                <div class="history-date">${date}</div>
+                <div class="history-desire">${item.desire}</div>
+                <span class="history-feeling">${item.feeling}</span>
+              </div>
+            `;
+          });
+        }
+        html += `</div>`;
+        app.innerHTML = html;
+        return;
+      }
+
+      // Create View - Steps
       if (currentStep === 0) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Manifest your desires</p>
-            </div>
-            <div class="card">
-              ${renderBox()}
-              <p style="text-align: center; color: #6B7280; font-size: 0.875rem; margin-bottom: 1.5rem;">
-                Create a visual script to align your energy with your desires through visualization and gratitude.
-              </p>
-              <button class="btn btn-primary" onclick="nextStep()">Begin Manifestation</button>
-            </div>
+        html += `
+          <div class="card">
+            ${renderBox()}
+            <p style="text-align: center; font-family: 'Caveat', cursive; font-size: 1.25rem; color: #4c1d95; margin-bottom: 1rem; position: relative; z-index: 1;">
+              Create your visual script to manifest your desires
+            </p>
+            <button class="btn btn-primary" onclick="nextStep()">Begin Writing</button>
           </div>
         `;
       }
 
-      // Step 1: Desire
       else if (currentStep === 1) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Step 1 of 4</p>
+        html += `
+          <div class="card">
+            ${renderBox()}
+            <div class="progress-bar">
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
             </div>
-            <div class="card">
-              ${renderBox()}
-              <div class="progress-dots">
-                <div class="progress-dot active"></div>
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
+            <div class="step-section">
+              <div class="step-label">
+                <span class="step-num">1</span>
+                <span class="step-title">Your Desire</span>
               </div>
-              <div class="step">
-                <div class="step-header">
-                  <span class="step-number">1</span>
-                  <span class="step-title">State Your Desire</span>
-                </div>
-                <p class="step-hint">Write in present tense, as if it just happened. Be specific and exciting!</p>
-                <textarea class="input textarea" rows="3" placeholder="I just now received $10,000 easily!!!" oninput="updateField('desire', this.value)">${boxData.desire}</textarea>
-              </div>
-              <button class="btn btn-primary" onclick="nextStep()" ${!boxData.desire.trim() ? 'disabled' : ''}>Next</button>
-              <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+              <p class="step-hint">Write in present tense, as if it just happened</p>
+              <textarea class="input-field" rows="2" placeholder="I just received $10,000 easily!" oninput="updateField('desire', this.value)">${boxData.desire}</textarea>
             </div>
+            <button class="btn btn-primary" onclick="nextStep()" ${!boxData.desire.trim() ? 'disabled' : ''}>Next</button>
+            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
           </div>
         `;
       }
 
-      // Step 2: End Scene
       else if (currentStep === 2) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Step 2 of 4</p>
+        html += `
+          <div class="card">
+            ${renderBox(true)}
+            <div class="progress-bar">
+              <div class="progress-dot done"></div>
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
             </div>
-            <div class="card">
-              ${renderBox()}
-              <div class="progress-dots">
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot active"></div>
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
+            <div class="step-section">
+              <div class="step-label">
+                <span class="step-num">2</span>
+                <span class="step-title">End Scene</span>
               </div>
-              <div class="step">
-                <div class="step-header">
-                  <span class="step-number">2</span>
-                  <span class="step-title">End Scene</span>
-                </div>
-                <p class="step-hint">Describe what you'd see as evidence of your manifestation. A snapshot of success.</p>
-                <textarea class="input textarea" rows="3" placeholder="Bank account increased by $10k" oninput="updateField('endScene', this.value)">${boxData.endScene}</textarea>
-              </div>
-              <button class="btn btn-primary" onclick="nextStep()" ${!boxData.endScene.trim() ? 'disabled' : ''}>Next</button>
-              <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+              <p class="step-hint">What evidence will you see when it manifests?</p>
+              <textarea class="input-field" rows="2" placeholder="Bank account shows +$10,000" oninput="updateField('endScene', this.value)">${boxData.endScene}</textarea>
             </div>
+            <button class="btn btn-primary" onclick="nextStep()" ${!boxData.endScene.trim() ? 'disabled' : ''}>Next</button>
+            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
           </div>
         `;
       }
 
-      // Step 3: Feeling
       else if (currentStep === 3) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Step 3 of 4</p>
+        html += `
+          <div class="card">
+            ${renderBox(true)}
+            <div class="progress-bar">
+              <div class="progress-dot done"></div>
+              <div class="progress-dot done"></div>
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
             </div>
-            <div class="card">
-              ${renderBox()}
-              <div class="progress-dots">
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot active"></div>
-                <div class="progress-dot"></div>
+            <div class="step-section">
+              <div class="step-label">
+                <span class="step-num">3</span>
+                <span class="step-title">Your Feeling</span>
               </div>
-              <div class="step">
-                <div class="step-header">
-                  <span class="step-number">3</span>
-                  <span class="step-title">Choose Your Feeling</span>
-                </div>
-                <p class="step-hint">Select the emotion you'd feel when this manifests.</p>
-                <div class="feelings-grid">
-                  ${feelings.map(f => `
-                    <button class="feeling-btn ${boxData.feeling === f ? 'selected' : ''}" onclick="selectFeeling('${f}')">${f}</button>
-                  `).join('')}
-                </div>
+              <p class="step-hint">How will you feel when this manifests?</p>
+              <div class="feelings-grid">
+                ${feelings.map(f => `
+                  <button class="feeling-btn ${boxData.feeling === f ? 'selected' : ''}" onclick="selectFeeling('${f}')">${f}</button>
+                `).join('')}
               </div>
-              <button class="btn btn-primary" onclick="nextStep()" ${!boxData.feeling ? 'disabled' : ''}>Next</button>
-              <button class="btn btn-secondary" onclick="prevStep()">Back</button>
             </div>
+            <button class="btn btn-primary" onclick="nextStep()" ${!boxData.feeling ? 'disabled' : ''}>Next</button>
+            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
           </div>
         `;
       }
 
-      // Step 4: Let + Allow
       else if (currentStep === 4) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Box Method</h1>
-              <p>Step 4 of 4</p>
+        html += `
+          <div class="card">
+            ${renderBox(true)}
+            <div class="progress-bar">
+              <div class="progress-dot done"></div>
+              <div class="progress-dot done"></div>
+              <div class="progress-dot done"></div>
+              <div class="progress-dot active"></div>
             </div>
-            <div class="card">
-              ${renderBox()}
-              <div class="progress-dots">
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot completed"></div>
-                <div class="progress-dot active"></div>
+            <div class="step-section">
+              <div class="step-label">
+                <span class="step-num">4</span>
+                <span class="step-title">Let + Allow</span>
               </div>
-              <div class="step">
-                <div class="step-header">
-                  <span class="step-number">4</span>
-                  <span class="step-title">Let + Allow</span>
-                </div>
-                <p class="step-hint">Release attachment and focus on gratitude. Trust the universe.</p>
-                <div style="background: #F3E8FF; border-radius: 0.5rem; padding: 1rem; text-align: center;">
-                  <p style="color: #7C3AED; font-weight: 500;">Focus on gratitude</p>
-                  <p style="color: #9CA3AF; font-size: 0.75rem; margin-top: 0.25rem;">Surrender control, trust the process</p>
-                </div>
+              <div style="background: #eef2ff; border-radius: 0.5rem; padding: 1rem; text-align: center; position: relative; z-index: 1;">
+                <p style="font-family: 'Caveat', cursive; font-size: 1.5rem; color: #1e40af;">Release & Trust</p>
+                <p style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">Focus on gratitude. Let the universe deliver.</p>
               </div>
-              <button class="btn btn-primary" onclick="startTimer()">Start 60s Visualization</button>
-              <button class="btn btn-secondary" onclick="prevStep()">Back</button>
             </div>
+            <button class="btn btn-primary" onclick="startTimer()">Start 60s Visualization</button>
+            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
           </div>
         `;
       }
 
-      // Step 5: Visualization Timer
       else if (currentStep === 5) {
         const progress = ((60 - timerSeconds) / 60) * 100;
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Visualize</h1>
-              <p>Feel it as if it's real now</p>
-            </div>
-            <div class="card">
-              <div class="timer-container">
-                <div class="timer-circle" style="--progress: ${progress}%;">
-                  <div class="timer-inner">
-                    <span class="timer-seconds">${timerSeconds}</span>
-                    <span class="timer-label">seconds</span>
-                  </div>
+        html += `
+          <div class="card">
+            <div class="timer-display">
+              <div class="timer-ring" style="--progress: ${progress}%;">
+                <div class="timer-inner">
+                  <span class="timer-num">${timerSeconds}</span>
+                  <span class="timer-text">seconds</span>
                 </div>
-                <p class="timer-instruction">
-                  Close your eyes. See your <strong>end scene</strong>.
-                  Feel the <strong>${boxData.feeling.toLowerCase()}</strong> emotion deeply.
-                  It is already yours.
-                </p>
               </div>
+              <p class="visualize-prompt">
+                Close your eyes...<br>
+                See your <strong>${boxData.endScene}</strong><br>
+                Feel the <strong>${boxData.feeling}</strong><br>
+                It is already yours.
+              </p>
             </div>
           </div>
         `;
       }
 
-      // Step 6: Seal
       else if (currentStep === 6) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Seal & Release</h1>
-              <p>Complete your manifestation</p>
+        html += `
+          <div class="card" style="position: relative; overflow: hidden;">
+            ${isSealed ? `
+              <span class="sparkle" style="top: 20%; left: 15%;">✨</span>
+              <span class="sparkle" style="top: 30%; right: 20%; animation-delay: 0.2s;">⭐</span>
+              <span class="sparkle" style="top: 60%; left: 25%; animation-delay: 0.4s;">💫</span>
+              <span class="sparkle" style="bottom: 30%; right: 15%; animation-delay: 0.6s;">🌟</span>
+              <span class="float-symbol" style="top: 40%; left: 40%;">🕊️</span>
+              <span class="float-symbol" style="top: 45%; left: 55%; animation-delay: 0.3s;">💜</span>
+            ` : ''}
+            ${renderBox()}
+            <div class="summary-box">
+              <div class="summary-item">
+                <div class="summary-label">Your Desire</div>
+                <div class="summary-value">${boxData.desire}</div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-label">End Scene</div>
+                <div class="summary-value">${boxData.endScene}</div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-label">Feeling</div>
+                <div class="summary-value">${boxData.feeling}</div>
+              </div>
             </div>
-            <div class="card ${isSealed ? 'release-glow' : ''}" style="position: relative; overflow: hidden;">
-              ${isSealed ? `
-                <div class="release-ring" style="animation-delay: 0s;"></div>
-                <div class="release-ring" style="animation-delay: 0.3s;"></div>
-                <div class="release-ring" style="animation-delay: 0.6s;"></div>
-                <span class="sparkle" style="top: 10%; left: 20%;">✨</span>
-                <span class="sparkle" style="top: 20%; right: 15%; animation-delay: 0.2s;">⭐</span>
-                <span class="sparkle" style="top: 60%; left: 10%; animation-delay: 0.4s;">💫</span>
-                <span class="sparkle" style="bottom: 20%; right: 20%; animation-delay: 0.6s;">🌟</span>
-                <span class="float-symbol" style="top: 50%; left: 30%;">🕊️</span>
-                <span class="float-symbol" style="top: 50%; left: 50%; animation-delay: 0.3s;">💜</span>
-                <span class="float-symbol" style="top: 50%; left: 70%; animation-delay: 0.5s;">🦋</span>
-              ` : ''}
-              ${renderBox()}
-              ${!isSealed ? `
-                <div class="summary-card">
-                  <div class="summary-item">
-                    <div class="summary-label">Your Desire</div>
-                    <div class="summary-value">${boxData.desire}</div>
-                  </div>
-                  <div class="summary-item">
-                    <div class="summary-label">End Scene</div>
-                    <div class="summary-value">${boxData.endScene}</div>
-                  </div>
-                  <div class="summary-item">
-                    <div class="summary-label">Feeling</div>
-                    <div class="summary-value">${boxData.feeling}</div>
-                  </div>
-                  <div class="summary-item">
-                    <div class="summary-label">Release</div>
-                    <div class="summary-value">Let + Allow with Gratitude</div>
-                  </div>
-                </div>
-                <p style="text-align: center; color: #6B7280; font-size: 0.875rem; margin-bottom: 1rem;">
-                  Review your manifestation above, then seal and release it to the universe.
-                </p>
-                <button class="btn btn-gold" onclick="sealBox()">
-                  🕊️ Seal & Release to Universe
-                </button>
-              ` : `
-                <div class="released-text">Releasing to the Universe...</div>
-              `}
-            </div>
+            <button class="btn btn-gold" onclick="sealBox()" ${isSealed ? 'disabled' : ''}>
+              ${isSealed ? 'Releasing...' : '🕊️ Seal & Release'}
+            </button>
           </div>
         `;
       }
 
-      // Step 7: Complete
       else if (currentStep === 7) {
-        html = `
-          <div class="container">
-            <div class="header">
-              <h1>✨ Released</h1>
-              <p>Your manifestation is complete</p>
+        html += `
+          <div class="card">
+            <div class="complete-symbols">
+              <span>🌟</span><span>🕊️</span><span>💜</span><span>✨</span><span>🦋</span>
             </div>
-            <div class="card">
-              <div class="release-symbols">
-                <span class="symbol">🌟</span>
-                <span class="symbol">🕊️</span>
-                <span class="symbol">💜</span>
-                <span class="symbol">🦋</span>
-                <span class="symbol">✨</span>
+            ${renderBox()}
+            <div class="complete-title">It Is Done</div>
+            <p class="complete-msg">
+              Your manifestation has been sealed with a <strong>star of activation</strong>
+              and released to the universe like a <strong>dove carrying your intention</strong>.<br><br>
+              Let go. Trust. Focus on gratitude.
+            </p>
+            <div class="summary-box">
+              <div class="summary-item">
+                <div class="summary-label">You Manifested</div>
+                <div class="summary-value">${boxData.desire}</div>
               </div>
-              ${renderBox()}
-              <div class="summary-card">
-                <div class="summary-item">
-                  <div class="summary-label">You Manifested</div>
-                  <div class="summary-value">${boxData.desire}</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">Evidence You'll See</div>
-                  <div class="summary-value">${boxData.endScene}</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">You Will Feel</div>
-                  <div class="summary-value">${boxData.feeling}</div>
-                </div>
+              <div class="summary-item">
+                <div class="summary-label">You Will See</div>
+                <div class="summary-value">${boxData.endScene}</div>
               </div>
-              <div class="complete-container">
-                <div class="complete-title">It Is Done ✓</div>
-                <p class="complete-text">
-                  Your manifestation has been sealed with a <strong>circle of protection</strong> and a <strong>star of activation</strong>,
-                  then released to the universe like a <strong>dove carrying your intention</strong>.
-                  <br><br>
-                  Now let go completely. Trust. Focus on gratitude for what you already have.
-                </p>
-                <button class="btn btn-primary" onclick="startNew()">Create New Manifestation</button>
+              <div class="summary-item">
+                <div class="summary-label">You Will Feel</div>
+                <div class="summary-value">${boxData.feeling}</div>
               </div>
             </div>
+            <button class="btn btn-primary" onclick="startNew()">New Manifestation</button>
           </div>
         `;
       }
 
+      html += `</div>`;
       app.innerHTML = html;
+
+      // Mark writing animations as done after delay
+      setTimeout(() => {
+        document.querySelectorAll('.writing').forEach(el => el.classList.add('done'));
+      }, 1000);
     }
 
     render();
